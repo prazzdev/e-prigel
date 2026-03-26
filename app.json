@@ -22,6 +22,11 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
+      "permissions": [
+        "android.permission.USE_BIOMETRIC",
+        "android.permission.USE_FINGERPRINT"
+      ],
+      "package": "com.prazzid.catatkas",
       "predictiveBackGestureEnabled": false
     },
     "web": {
@@ -37,6 +42,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "04bd84d8-feee-4cc0-b60b-c1fc91917617"
+      }
     }
   }
 }

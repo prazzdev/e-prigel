@@ -32,14 +32,12 @@ export default function SettingsScreen() {
       const data = await exportTransactions();
       if (data.length === 0) return Alert.alert("KOSONG", "TIDAK ADA TRANSAKSI UNTUK DIEKSPOR.");
 
-      // Buat Header CSV
       let csvContent = "Tanggal,Keterangan,Tipe,Kategori,Dompet,Nominal\n";
       
-      // Isi Data
       data.forEach((tx) => {
         const row = [
           new Date(tx.date).toLocaleDateString('id-ID'),
-          tx.note.replace(/,/g, ' '), // Biar koma di note gak ngerusak kolom
+          tx.note.replace(/,/g, ' '), 
           tx.type.toUpperCase(),
           tx.category || '-',
           tx.account || '-',
@@ -49,9 +47,12 @@ export default function SettingsScreen() {
       });
 
       const fileName = `Laporan_Keuangan_${new Date().getTime()}.csv`;
-      const fileUri = FileSystem.documentDirectory + fileName;
+      // Fix: Gunakan fallback jika documentDirectory undefined (jarang terjadi di mobile)
+      const baseDir = (FileSystem as any).documentDirectory || (FileSystem as any).cacheDirectory || "";
+      const fileUri = baseDir + fileName;
 
-      await FileSystem.writeAsStringAsync(fileUri, csvContent, { encoding: FileSystem.EncodingType.UTF8 });
+      // Fix: Gunakan string literal untuk EncodingType agar lebih aman dari error type
+      await FileSystem.writeAsStringAsync(fileUri, csvContent, { encoding: 'utf8' });
       await Sharing.shareAsync(fileUri);
     } catch (e) {
       Alert.alert("ERROR", "GAGAL MEMBUAT LAPORAN.");

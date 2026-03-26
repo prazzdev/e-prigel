@@ -1,7 +1,3 @@
-/**
- * Learn more about Light and Dark modes:
- * https://docs.expo.io/guides/color-schemes/
- */
 import { Text as DefaultText, View as DefaultView } from 'react-native';
 
 import { useColorScheme } from './useColorScheme';
@@ -20,13 +16,16 @@ export function useThemeColor(
   props: { light?: string; dark?: string },
   colorName: keyof typeof Colors.light & keyof typeof Colors.dark
 ) {
-  const theme = useColorScheme();
-  const colorFromProps = props[theme];
+  // Fix: Pastikan theme memiliki fallback 'light' agar tidak null/undefined
+  const theme = useColorScheme() ?? 'light';
+  
+  // Fix: Gunakan type assertion agar TS tahu theme adalah 'light' atau 'dark'
+  const colorFromProps = props[theme as 'light' | 'dark'];
 
   if (colorFromProps) {
     return colorFromProps;
   } else {
-    return Colors[theme][colorName];
+    return Colors[theme as 'light' | 'dark'][colorName];
   }
 }
 

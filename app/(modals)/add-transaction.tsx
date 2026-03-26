@@ -58,8 +58,8 @@ export default function AddTransaction() {
         amount: parseInt(rawAmount) * 100, 
         type: type,
         note: note.trim(),
-        category_id: selectedCat,
-        account_id: selectedAcc
+        category_id: selectedCat || undefined, // Fix: Ubah null menjadi undefined agar sesuai interface Transaction
+        account_id: selectedAcc || undefined   // Sekalian tambahkan fallback untuk account_id
       });
       router.back();
     } catch (error) {
