@@ -1,0 +1,2 @@
+
+npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css --watch
